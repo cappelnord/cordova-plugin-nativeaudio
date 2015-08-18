@@ -194,7 +194,7 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 		float currentTime;
 		try {
 			audioID = data.getString(0);
-			Log.d( LOGTAG, "setVolume - " + audioID );
+			Log.d( LOGTAG, "getCurrentTime - " + audioID );
 			
 			if (assetMap.containsKey(audioID)) {
 				NativeAudioAsset asset = assetMap.get(audioID);
@@ -213,7 +213,7 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 		float duration;
 		try {
 			audioID = data.getString(0);
-			Log.d( LOGTAG, "setVolume - " + audioID );
+			Log.d( LOGTAG, "getDuration - " + audioID );
 			
 			if (assetMap.containsKey(audioID)) {
 				NativeAudioAsset asset = assetMap.get(audioID);
