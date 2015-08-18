@@ -40,6 +40,8 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 	public static final String STOP="stop";
 	public static final String LOOP="loop";
 	public static final String UNLOAD="unload";
+	public static final String GETCURRENTTIME = "getCurrentTime";
+	public static final String GETDURATION = "getDuration";
     public static final String ADD_COMPLETE_LISTENER="addCompleteListener";
 	public static final String SET_VOLUME_FOR_COMPLEX_ASSET="setVolumeForComplexAsset";
 
@@ -186,6 +188,45 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 		}
 		return new PluginResult(Status.OK);
 	}
+
+	private PluginResult executeGetCurrentTime(JSONArray data) {
+		String audioID;
+		float currentTime;
+		try {
+			audioID = data.getString(0);
+			Log.d( LOGTAG, "setVolume - " + audioID );
+			
+			if (assetMap.containsKey(audioID)) {
+				NativeAudioAsset asset = assetMap.get(audioID);
+				currentTime = asset.getCurrentTime();
+			} else {
+				return new PluginResult(Status.ERROR, ERROR_NO_AUDIOID);
+			}
+		} catch (JSONException e) {
+			return new PluginResult(Status.ERROR, e.toString());
+		}
+		return new PluginResult(Status.OK, currentTime);
+	}
+
+		private PluginResult executeGetDuration(JSONArray data) {
+		String audioID;
+		float duration;
+		try {
+			audioID = data.getString(0);
+			Log.d( LOGTAG, "setVolume - " + audioID );
+			
+			if (assetMap.containsKey(audioID)) {
+				NativeAudioAsset asset = assetMap.get(audioID);
+				duration = asset.getDuration();
+			} else {
+				return new PluginResult(Status.ERROR, ERROR_NO_AUDIOID);
+			}
+		} catch (JSONException e) {
+			return new PluginResult(Status.ERROR, e.toString());
+		}
+		return new PluginResult(Status.OK, duration);
+	}
+
 	@Override
 	protected void pluginInitialize() {
 		AudioManager am = (AudioManager)cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
@@ -214,7 +255,21 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 		            public void run() {
 		            	callbackContext.sendPluginResult( executePreload(data) );
 		            }
-		        });				
+		        });	
+
+		    } else if (GETDURATION.equals(action)) {
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	callbackContext.sendPluginResult( executeGetDuration(data) );
+		            }
+		       	});
+
+		    } else if (GETCURRENTTIME.equals(action)) {
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	callbackContext.sendPluginResult( executeGetCurrentTime(data) );
+		            }
+		       	});					
 				
 			} else if (PRELOAD_COMPLEX.equals(action)) {
 				cordova.getThreadPool().execute(new Runnable() {

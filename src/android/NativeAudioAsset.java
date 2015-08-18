@@ -98,4 +98,12 @@ public class NativeAudioAsset
 			voice.setVolume(volume);
 		}
 	}
+
+	public float getDuration() {
+		return voices.get(0).getDuration();
+	}
+
+	public float getCurrentTime() {
+		return voices.get(0).getCurrentTime();
+	}
 }

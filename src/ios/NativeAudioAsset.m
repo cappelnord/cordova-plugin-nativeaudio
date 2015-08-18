@@ -165,4 +165,14 @@ static const CGFloat FADE_DELAY = 0.08;
     }
 }
 
+- (double) getDuration
+{
+    return [(AVAudioPlayer*) [voices objectAtIndex:0] duration];
+}
+
+- (double) getCurrentTime 
+{
+    return [(AVAudioPlayer*) [voices objectAtIndex:0] currentTime];
+}
+
 @end

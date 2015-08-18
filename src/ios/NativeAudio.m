@@ -188,7 +188,8 @@ NSString* INFO_VOLUME_CHANGED = @"(NATIVE AUDIO) Volume changed.";
                 if ([asset isKindOfClass:[NativeAudioAsset class]]) {
                     NativeAudioAsset *_asset = (NativeAudioAsset*) asset;
                     // Music assets are faded in
-                    [_asset playWithFade];
+                    // [_asset playWithFade];
+                    [_asset play];
 
                     NSString *RESULT = [NSString stringWithFormat:@"%@ (%@)", INFO_PLAYBACK_PLAY, audioID];
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: RESULT] callbackId:callbackId];
@@ -229,7 +230,8 @@ NSString* INFO_VOLUME_CHANGED = @"(NATIVE AUDIO) Volume changed.";
             if ([asset isKindOfClass:[NativeAudioAsset class]]) {
                 NativeAudioAsset *_asset = (NativeAudioAsset*) asset;
                 // Music assets are faded out
-                [_asset stopWithFade];
+                // [_asset stopWithFade];
+                [_asset stop];
 
                 NSString *RESULT = [NSString stringWithFormat:@"%@ (%@)", INFO_PLAYBACK_STOP, audioID];
                 [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: RESULT] callbackId:callbackId];
@@ -444,5 +446,42 @@ static void (mySystemSoundCompletionProc)(SystemSoundID ssID,void* clientData)
         }
     }];
 }
+
+- (void) getDuration:(CDVInvokedUrlCommand *)command {
+    NSString *callbackId = command.callbackId;
+    NSArray* arguments = command.arguments;
+    NSString *audioID = [arguments objectAtIndex:0];
+
+    if ( audioMapping ) {
+        NSObject* asset = [audioMapping objectForKey: audioID];
+
+        if (asset != nil) {
+            if ([asset isKindOfClass:[NativeAudioAsset class]]) {
+                NativeAudioAsset *_asset = (NativeAudioAsset*) asset;
+                double duration = [_asset getDuration];
+                [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:duration] callbackId:callbackId];
+            }
+        }
+    }
+}
+
+- (void) getCurrentTime:(CDVInvokedUrlCommand *)command {
+    NSString *callbackId = command.callbackId;
+    NSArray* arguments = command.arguments;
+    NSString *audioID = [arguments objectAtIndex:0];
+
+    if ( audioMapping ) {
+        NSObject* asset = [audioMapping objectForKey: audioID];
+
+        if (asset != nil) {
+            if ([asset isKindOfClass:[NativeAudioAsset class]]) {
+                NativeAudioAsset *_asset = (NativeAudioAsset*) asset;
+                double currentTime = [_asset getCurrentTime];
+                [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:currentTime] callbackId:callbackId];
+            }
+        }
+    }
+}
+
 
 @end

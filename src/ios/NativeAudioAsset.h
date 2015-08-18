@@ -31,4 +31,6 @@ typedef void (^CompleteCallback)(NSString*);
 - (void) setCallbackAndId:(CompleteCallback)cb audioId:(NSString*)audioId;
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag;
 - (void) audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error;
+- (double) getDuration;
+- (double) getCurrentTime;
 @end

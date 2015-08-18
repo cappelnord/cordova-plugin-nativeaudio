@@ -131,6 +131,14 @@ public class NativeAudioAssetComplex implements OnPreparedListener, OnCompletion
 		this.stop();
 		mp.release();
 	}
+
+	public float getCurrentTime() {
+		return mp.getCurrentPosition() / 1000.0f;
+	}
+
+	public float getDuration() {
+		return mp.getDuration() / 1000.0f;
+	}
 	
 	public void onPrepared(MediaPlayer mPlayer) 
 	{

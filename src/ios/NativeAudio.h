@@ -25,5 +25,8 @@
 - (void) unload:(CDVInvokedUrlCommand *)command;
 - (void) setVolumeForComplexAsset:(CDVInvokedUrlCommand *)command;
 - (void) addCompleteListener:(CDVInvokedUrlCommand *)command;
+- (void) getDuration:(CDVInvokedUrlCommand *)command;
+- (void) getCurrentTime:(CDVInvokedUrlCommand *)command;
+
 
 @end
