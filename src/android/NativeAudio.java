@@ -177,7 +177,7 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 		try {
 			audioID = data.getString(0);
 			volume = (float) data.getDouble(1);
-			Log.d( LOGTAG, "setVolume - " + audioID );
+			// Log.d( LOGTAG, "setVolume - " + audioID );
 			
 			if (assetMap.containsKey(audioID)) {
 				NativeAudioAsset asset = assetMap.get(audioID);
@@ -196,7 +196,7 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 		float currentTime;
 		try {
 			audioID = data.getString(0);
-			Log.d( LOGTAG, "getCurrentTime - " + audioID );
+			// Log.d( LOGTAG, "getCurrentTime - " + audioID );
 			
 			if (assetMap.containsKey(audioID)) {
 				NativeAudioAsset asset = assetMap.get(audioID);
@@ -246,7 +246,7 @@ public class NativeAudio extends CordovaPlugin implements AudioManager.OnAudioFo
 
 	@Override
 	public boolean execute(final String action, final JSONArray data, final CallbackContext callbackContext) {
-		Log.d(LOGTAG, "Plugin Called: " + action);
+		// Log.d(LOGTAG, "Plugin Called: " + action);
 		
 		PluginResult result = null;
 		initSoundPool();

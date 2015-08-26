@@ -29,6 +29,9 @@ public class NativeAudioAssetComplex implements OnPreparedListener, OnCompletion
 	private int state;
     Callable<Void> completeCallback;
 
+    private float currentTimeCache;
+    private float durationCache;
+
 	public NativeAudioAssetComplex( AssetFileDescriptor afd, float volume)  throws IOException
 	{
 		state = INVALID;
@@ -133,11 +136,23 @@ public class NativeAudioAssetComplex implements OnPreparedListener, OnCompletion
 	}
 
 	public float getCurrentTime() {
-		return mp.getCurrentPosition() / 1000.0f;
+		try {
+			currentTimeCache = mp.getCurrentPosition() / 1000.0f;
+			return currentTimeCache;
+		} catch (IllegalStateException e) {
+            // I don't know why this gets thrown; catch here to save app
+            return currentTimeCache;
+		}
 	}
 
 	public float getDuration() {
-		return mp.getDuration() / 1000.0f;
+		try {
+			durationCache = mp.getDuration() / 1000.0f;
+			return durationCache;
+		} catch (IllegalStateException e) {
+            // I don't know why this gets thrown; catch here to save app
+            return durationCache;
+		}
 	}
 	
 	public void onPrepared(MediaPlayer mPlayer) 
